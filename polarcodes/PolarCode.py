@@ -183,6 +183,17 @@ class PolarCode:
         else:
             return self.u[np.where(self.source_set_lookup == 1)]
 
+def set_codeword(self, new_u, energy_signal, r):
+        """
+        Set a new codeword in the place of the old one. This can be used if this library
+        is used as part of a scheme that noise must be added on another stage. That way,
+        after the addition of noise on that scheme, we can set the codeword as the noisy 
+        encoded (by this library) message.
+    
+        """
+        self.likelihoods = np.array( [-4 * (new_u[i]-0.5) * (10**(energy_signal/10) *r) for i in range(len(new_u))], dtype=np.float64)
+        self.u = new_u
+
     def get_normalised_SNR(self, design_SNR):
         """
         Normalise E_b/N_o so that the message bits have the same energy for any code rate.
